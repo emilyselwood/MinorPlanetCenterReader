@@ -38,7 +38,9 @@ public class MinorPlanet {
 
     private final int    arcLength;
 
-    // this is pretty hideous but we want these to be immutable
+    /**
+     * You do not want to use this. These should only be constructed from the readers.
+     */
     public MinorPlanet(String number, double absoluteMagnitude, double slope, Date epoch, double meanAnomalyEpoch,
                        double argumentOfPerihelion, double longitudeOfTheAscendingNode, double inclinationToTheEcliptic,
                        double orbitalEccentricity, double meanDailyMotion, double semimajorAxis,

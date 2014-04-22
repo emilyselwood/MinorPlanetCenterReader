@@ -10,9 +10,15 @@ public class Example {
 
 
     public static void main(String[] args) {
+
+        if(args.length < 1) {
+            System.out.println("Please pass a file name as the first argument");
+            return;
+        }
+
         try {
             // create the reader. Given the file to be loaded.
-            MinorPlanetReader reader = new NumberedMinorPlanetReader(new File("/home/wselwood/Downloads/mpn.txt"));
+            MinorPlanetReader reader = new NumberedMinorPlanetReader(new File(args[0]));
 
             long start = System.currentTimeMillis(); // record how long this takes.
 
