@@ -20,4 +20,23 @@ Place the jar in your applications class path as with any other dependency not p
 
 ## Usage ##
 
-TODO
+There are two different files that are provided by the Minor Planets Center. The numbered Minor Planets and the un-numbered minor planets.
+
+Each of these files has a different reader class. ```NumberedMinorPlanetReader``` and ```UnnumberedMinorPlanetReader``` Both classes take a file object on creation and extend ```MinorPlanetReader```
+
+The reader class provides two methods ```hasNext()``` which returns true if there are more records in the file. and ```next()``` which returns the next record.
+
+The next method from both classes returns a ```MinorPlanet``` object which contains the decoded details for a minor planet. This class is immutable.
+
+Finally there is a ```close()``` method on the reader which will close down the file handle.
+
+## Example ##
+
+```
+MinorPlanetReader reader = new NumberedMinorPlanetReader(new File("./mpn.txt"));
+while(reader.hasNext()) {
+    MinorPlanet mp = reader.next();
+    System.out.println(mp.getNumber() + " : " + mp.getReadableDesignation());
+}
+reader.close();
+```
