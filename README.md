@@ -22,11 +22,13 @@ Place the jar in your applications class path as with any other dependency not p
 
 There are two different files that are provided by the Minor Planets Center. The numbered Minor Planets and the un-numbered minor planets.
 
-Each of these files has a different reader class. ```NumberedMinorPlanetReader``` and ```UnnumberedMinorPlanetReader``` Both classes take a file object on creation and extend ```MinorPlanetReader```
+Each of these files has a different reader class. ```com.wselwood.mpcreader.NumberedMinorPlanetReader``` and ```com.wselwood.mpcreader.UnnumberedMinorPlanetReader``` Both classes take a file object on creation and extend ```com.wselwood.mpcreader.MinorPlanetReader```
 
 The reader class provides two methods ```hasNext()``` which returns true if there are more records in the file. and ```next()``` which returns the next record.
 
-The next method from both classes returns a ```MinorPlanet``` object which contains the decoded details for a minor planet. This class is immutable.
+Both these methods can throw IOExceptions and the next method can throw ```com.wselwood.mpcreader.InvalidDataException``` if the record will not parse for some reason. If you get this happen I suggest you re-download the file as it is probably corrupt.
+
+The next method from both classes returns a ```com.wselwood.mpcreader.MinorPlanet``` object which contains the decoded details for a minor planet. This class is immutable.
 
 Finally there is a ```close()``` method on the reader which will close down the file handle.
 
