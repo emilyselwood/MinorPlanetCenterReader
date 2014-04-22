@@ -9,11 +9,19 @@ import java.io.File;
 import java.io.IOException;
 
 /**
+ * A MinorPlanetReader for reading the numbered version of the minor planet center catalogue.
+ *
+ * This version of the file has a packed integer identifier as the first column.
+ *
  * Created by wselwood on 17/04/14.
  */
 public class NumberedMinorPlanetReader extends MinorPlanetReader {
 
-
+    /**
+     * set up a new number minor planet reader
+     * @param input a file object pointing at the file to read.
+     * @throws IOException if there is a problem opening the file.
+     */
     public NumberedMinorPlanetReader(File input) throws IOException {
         super(input);
     }

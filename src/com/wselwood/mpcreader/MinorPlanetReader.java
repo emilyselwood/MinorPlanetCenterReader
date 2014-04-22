@@ -6,8 +6,9 @@ import java.io.*;
 import java.util.*;
 
 /**
+ * The basic part of a reader for the minor planet center catalogues.
  *
- * The only reason this does not implement Iterator is so we can throw IO exceptions
+ * The only reason this does not implement Iterator is so we can throw IO exceptions on next and hasNext.
  *
  * Created by wselwood on 14/04/14.
  */
@@ -36,11 +37,24 @@ public abstract class MinorPlanetReader {
 
     }
 
-
+    /**
+     * Is there any more data in the file to be processed?
+     * @return true if there is at least one more record.
+     * @throws IOException if the file reader is in a bad state.
+     */
     public boolean hasNext() throws IOException {
         return bufferedReader.ready();
     }
 
+    /**
+     * Get the next record out of the minor planet file.
+     *
+     * This will read the line from the file and decode it.
+     *
+     * @return a Minor Planet object representing the record from the file
+     * @throws IOException if the file reading fails for some reason.
+     * @throws InvalidDataException if the record read from the file is invalid.
+     */
     public MinorPlanet next() throws IOException, InvalidDataException {
 
         resetColumns();
@@ -62,13 +76,16 @@ public abstract class MinorPlanetReader {
         return constructMinorPlanet();
     }
 
-
+    /**
+     * close down this read and clean up the file handle.
+     * @throws IOException if closing the file reader fails for some reason.
+     */
     public void close() throws IOException {
         bufferedReader.close();
     }
 
     private MinorPlanet constructMinorPlanet() {
-        // casting due to the compiler not being able to understand each map entry.
+        // casting due to the compiler not being able to understand each map entry having different generic types.
         return new MinorPlanet(
                 (String) values.get(ColumnNames.MPC_NUMBER).get().toString(),
                 (double) values.get(ColumnNames.MPC_MAGNITUDE).get(),

@@ -3,7 +3,9 @@ package com.wselwood.mpcreader;
 import java.util.Date;
 
 /**
+ * Immutable class holding all the information about a minor planet decoded out of a file.
  *
+ * These should not be constructed outside of the MinorPlanetReader.
  *
  * Created by wselwood on 14/04/14.
  */
