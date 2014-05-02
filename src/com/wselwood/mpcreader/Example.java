@@ -18,7 +18,7 @@ public class Example {
 
         try {
             // create the reader. Given the file to be loaded.
-            MinorPlanetReader reader = new NumberedMinorPlanetReader(new File(args[0]));
+            MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(args[0])).numberedFile().build();
 
             long start = System.currentTimeMillis(); // record how long this takes.
 

@@ -24,7 +24,7 @@ public class TestNumberedMinorPlanetReader {
     public void testBasicLoad() throws IOException, InvalidDataException {
 
         String filePath = this.getClass().getResource("test1.txt").getFile();
-        MinorPlanetReader reader = new NumberedMinorPlanetReader(new File(filePath));
+        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).numberedFile().build();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -42,7 +42,7 @@ public class TestNumberedMinorPlanetReader {
     @Test
     public void testMultiRecords() throws IOException, InvalidDataException {
         String filePath = this.getClass().getResource("test10.txt").getFile();
-        MinorPlanetReader reader = new NumberedMinorPlanetReader(new File(filePath));
+        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).numberedFile().build();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -60,7 +60,7 @@ public class TestNumberedMinorPlanetReader {
     @Test
     public void testMissingUncertaintyParameter() throws IOException, InvalidDataException {
         String filePath = this.getClass().getResource("MissingUncertaintyParameter.txt").getFile();
-        MinorPlanetReader reader = new NumberedMinorPlanetReader(new File(filePath));
+        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).numberedFile().build();
 
         assert(reader.hasNext());
 

@@ -20,9 +20,13 @@ Place the jar in your applications class path as with any other dependency not p
 
 ## Usage ##
 
-There are two different files that are provided by the Minor Planets Center. The numbered Minor Planets and the un-numbered minor planets.
+To construct a reader you first need a ```com.wselwood.mpcreader.MinorPlanetReaderBuilder``` this will allow you to set the needed options on the reader before construction.
 
-Each of these files has a different reader class. ```com.wselwood.mpcreader.NumberedMinorPlanetReader``` and ```com.wselwood.mpcreader.UnnumberedMinorPlanetReader``` Both classes take a file object on creation and extend ```com.wselwood.mpcreader.MinorPlanetReader```
+The two required options are the file to open set with the ```open(File f)``` method and the type of file set with either ```numberedFile()``` or unNumberedFile()```
+
+Other options will be added in the future. We plan to add options for automatic conversion of angle values to radians and other options we find useful.
+
+Finally when you have your builder in the state you want call the ```build()``` method which will construct the ```com.wselwood.mpcreader.MinorPlanetReader``` Note this method can throw an IOException
 
 The reader class provides two methods ```hasNext()``` which returns true if there are more records in the file. and ```next()``` which returns the next record.
 
@@ -36,14 +40,17 @@ Finally there is a ```close()``` method on the reader which will close down the 
 
 ```
 import com.wselwood.mpcreader.MinorPlanetReader;
-import com.wselwood.mpcreader.NumberedMinorPlanetReader;
+import com.wselwood.mpcreader.MinorPlanetReaderBuilder;
 import com.wselwood.mpcreader.MinorPlanet;
 import com.wselwood.mpcreader.InvalidDataException;
 
 public class example {
     public static void main(string[] args) {
         try {
-            MinorPlanetReader reader = new NumberedMinorPlanetReader(new File("./mpn.txt"));
+            MinorPlanetReaderBuilder builder = new MinorPlanetReaderBuilder();
+            builder.open(new File("./mpn.txt").numberedFile();
+
+            MinorPlanetReader reader = builder.build();
             while(reader.hasNext()) {
                 MinorPlanet mp = reader.next();
                 System.out.println(mp.getNumber() + " : " + mp.getReadableDesignation());
