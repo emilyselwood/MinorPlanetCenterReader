@@ -1,6 +1,7 @@
 package com.wselwood.mpcreader;
 
 import com.wselwood.mpcreader.columns.*;
+import com.wselwood.mpcreader.modifiers.Modifier;
 
 import java.io.*;
 import java.util.*;
@@ -18,7 +19,7 @@ public class MinorPlanetReader {
     /**
      * Use the MinorPlanetReaderBuilder to construct this class. You are not expected to call this directly.
      */
-    public MinorPlanetReader(File input, List<Column> columns, Map<String, Container> containers) throws IOException {
+    public MinorPlanetReader(File input, List<Column> columns, List<Modifier> modifiers, Map<String, Container> containers) throws IOException {
 
         if(!input.exists()) {
             throw new FileNotFoundException("Minor Planet file could not be found");
@@ -31,9 +32,8 @@ public class MinorPlanetReader {
         }
 
         this.columns = columns;
-        values = containers;
-
-
+        this.modifiers = modifiers;
+        this.values = containers;
 
         buffer = new char[203];
 
@@ -77,6 +77,10 @@ public class MinorPlanetReader {
             c.process(buffer);
         }
 
+        for(Modifier m : modifiers) {
+            m.process();
+        }
+
         return constructMinorPlanet();
     }
 
@@ -106,7 +110,9 @@ public class MinorPlanetReader {
                 (String) values.get(ColumnNames.MPC_REFERENCE).get(),
                 (int)    values.get(ColumnNames.MPC_NUM_OBS).get(),
                 (int)    values.get(ColumnNames.MPC_NUM_OPPS).get(),
-                (String) values.get(ColumnNames.MPC_OPPOSITION).get(),
+                (int)    values.get(ColumnNames.MPC_FIRST_YEAR).get(),
+                (int)    values.get(ColumnNames.MPC_LAST_YEAR).get(),
+                (int)    values.get(ColumnNames.MPC_ARC_LENGTH).get(),
                 (double) values.get(ColumnNames.MPC_RESIDUAL).get(),
                 (String) values.get(ColumnNames.MPC_COARSE_PERTURBERS).get(),
                 (String) values.get(ColumnNames.MPC_PRECISE_PERTURBERS).get(),
@@ -128,6 +134,7 @@ public class MinorPlanetReader {
     private final BufferedReader bufferedReader;
 
     protected final List<Column> columns;
+    protected final List<Modifier> modifiers;
     protected final Map<String, Container> values;
 
 }

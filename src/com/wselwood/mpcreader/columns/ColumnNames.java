@@ -24,6 +24,9 @@ public class ColumnNames {
     public static final String MPC_NUM_OBS                 = "Number of observations";
     public static final String MPC_NUM_OPPS                = "Number of oppositions";
     public static final String MPC_OPPOSITION              = "Opposition info";
+    public static final String MPC_FIRST_YEAR              = "First Year of Observation";
+    public static final String MPC_LAST_YEAR               = "Last Year of Observation";
+    public static final String MPC_ARC_LENGTH              = "Arc Length";
     public static final String MPC_RESIDUAL                = "R.M.S residual";
     public static final String MPC_COARSE_PERTURBERS       = "Coarse indicator of perturbers";
     public static final String MPC_PRECISE_PERTURBERS      = "Precise indicator of perturbers";

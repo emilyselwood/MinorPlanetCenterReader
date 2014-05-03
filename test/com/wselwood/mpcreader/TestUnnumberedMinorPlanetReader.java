@@ -75,7 +75,6 @@ public class TestUnnumberedMinorPlanetReader {
         assertEquals(75, result.getNumberOfObservations());
         assertEquals(5, result.getNumberOfOppositions());
 
-        assertEquals("1960-2009", result.getOppositionInfo());
         assertEquals(1960, result.getYearOfFirstObservation());
         assertEquals(2009, result.getYearOfLastObservation());
 

@@ -26,7 +26,6 @@ public class MinorPlanet {
     private final String reference;
     private final int    numberOfObservations;
     private final int    numberOfOppositions;
-    private final String oppositionInfo;
     private final double rMSResidual;
     private final String coarseIndicatorOfPerturbers;
     private final String preciseIndicatorOfPerturbers;
@@ -47,7 +46,7 @@ public class MinorPlanet {
                        double argumentOfPerihelion, double longitudeOfTheAscendingNode, double inclinationToTheEcliptic,
                        double orbitalEccentricity, double meanDailyMotion, double semimajorAxis,
                        String uncertaintyParameter, String reference, int numberOfObservations, int numberOfOppositions,
-                       String oppositionInfo, double rMSResidual, String coarseIndicatorOfPerturbers,
+                       int yearOfFirstObservation, int yearOfLastObservation, int arcLength, double rMSResidual, String coarseIndicatorOfPerturbers,
                        String preciseIndicatorOfPerturbers, String computerName, int hexDigitFlags,
                        String readableDesignation, Date dateOfLastObservation) {
         this.number = number;
@@ -65,7 +64,6 @@ public class MinorPlanet {
         this.reference = reference;
         this.numberOfObservations = numberOfObservations;
         this.numberOfOppositions = numberOfOppositions;
-        this.oppositionInfo = oppositionInfo;
         this.rMSResidual = rMSResidual;
         this.coarseIndicatorOfPerturbers = coarseIndicatorOfPerturbers;
         this.preciseIndicatorOfPerturbers = preciseIndicatorOfPerturbers;
@@ -74,19 +72,11 @@ public class MinorPlanet {
         this.readableDesignation = readableDesignation;
         this.dateOfLastObservation = dateOfLastObservation;
 
-        if(this.numberOfOppositions == 1) {
+        this.yearOfFirstObservation = yearOfFirstObservation;
+        this.yearOfLastObservation  = yearOfLastObservation;
 
-            this.arcLength = Integer.parseInt(this.oppositionInfo.substring(0, 4));
+        this.arcLength = arcLength;
 
-            this.yearOfFirstObservation = -1;
-            this.yearOfLastObservation  = -1;
-        }
-        else {
-            this.yearOfFirstObservation = Integer.parseInt(this.oppositionInfo.substring(0, 4));
-            this.yearOfLastObservation = Integer.parseInt(this.oppositionInfo.substring(5, 9));
-
-            this.arcLength = -1;
-        }
     }
 
     public String getNumber() {
@@ -147,10 +137,6 @@ public class MinorPlanet {
 
     public int getNumberOfOppositions() {
         return numberOfOppositions;
-    }
-
-    public String getOppositionInfo() {
-        return oppositionInfo;
     }
 
     public double getrMSResidual() {
