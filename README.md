@@ -9,20 +9,20 @@ Currently we don't have a maven repo hosting this so you will need to build the 
 ```
 $ git clone https://github.com/wselwood/MinorPlanetCenterReader.git
 $ cd MinorPlanetCenterReader
-$ ./gradlew jar
+$ ./gradlew build
 ```
 
-The jar will end up in ./build/libs/
+The jars will end up in ./build/libs/
 
-If you want source and java doc jars you can run ```./gradlew javadocJar``` and ```./gradlew sourcesJar```
-
+See the ```./graldew tasks``` for other options.
+ 
 Place the jar in your applications class path as with any other dependency not pulled from maven.
 
 ## Usage ##
 
 To construct a reader you first need a ```com.wselwood.mpcreader.MinorPlanetReaderBuilder``` this will allow you to set the needed options on the reader before construction.
 
-The two required options are the file to open set with the ```open(File f)``` method and the type of file set with either ```numberedFile()``` or unNumberedFile()```
+The two required options are the file to open set with the ```open(File f)``` method and the type of file set with either ```numberedFile()``` or ```unNumberedFile()```
 
 Other options will be added in the future. We plan to add options for automatic conversion of angle values to radians and other options we find useful.
 
