@@ -32,9 +32,9 @@ The reader class provides two methods ```hasNext()``` which returns true if ther
 
 Both these methods can throw IOExceptions and the next method can throw ```com.wselwood.mpcreader.InvalidDataException``` if the record will not parse for some reason. If you get this happen I suggest you re-download the file as it is probably corrupt.
 
-The next method from both classes returns a ```com.wselwood.mpcreader.MinorPlanet``` object which contains the decoded details for a minor planet. This class is immutable. You are not expected to ever want to construct these your self.
+The next method returns a ```com.wselwood.mpcreader.MinorPlanet``` object which contains the decoded details for a minor planet. This class is immutable. You are not expected to ever want to construct these your self.
 
-Finally there is a ```close()``` method on the reader which will close down the file handle.
+Finally there is a ```close()``` method on the reader which will close down the file handle. This should always be called when you are done with the reader.
 
 ## Example ##
 
