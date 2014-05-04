@@ -26,9 +26,6 @@ public class TestNumberedMinorPlanetReader {
         String filePath = this.getClass().getResource("test1.txt").getFile();
         MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).numberedFile().build();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-
         assert(reader.hasNext());
         MinorPlanet result = reader.next();
 
@@ -36,16 +33,12 @@ public class TestNumberedMinorPlanetReader {
 
         reader.close();
         verifyCeres(result);
-
     }
 
     @Test
     public void testMultiRecords() throws IOException, InvalidDataException {
         String filePath = this.getClass().getResource("test10.txt").getFile();
         MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).numberedFile().build();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
 
         List<MinorPlanet> result = new ArrayList<>();
 
