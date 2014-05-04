@@ -38,6 +38,9 @@ Finally there is a ```close()``` method on the reader which will close down the 
 
 ## Example ##
 
+Also see src/com/wselwood/mpcreader/Example.java
+
+
 ```
 import com.wselwood.mpcreader.MinorPlanetReader;
 import com.wselwood.mpcreader.MinorPlanetReaderBuilder;
@@ -46,18 +49,28 @@ import com.wselwood.mpcreader.InvalidDataException;
 
 public class example {
     public static void main(string[] args) {
+
+        MinorPlanetReader reader = null;
         try {
             MinorPlanetReaderBuilder builder = new MinorPlanetReaderBuilder();
             builder.open(new File("./mpn.txt").numberedFile();
 
-            MinorPlanetReader reader = builder.build();
+            reader = builder.build();
             while(reader.hasNext()) {
                 MinorPlanet mp = reader.next();
                 System.out.println(mp.getNumber() + " : " + mp.getReadableDesignation());
             }
-            reader.close();
         } catch (IOException | InvalidDataException e) {
             e.printStackTrace();
+        }
+        finally {
+            if(reader != null) {
+                try {
+                    reader.close(); // close down the file reader now we are done with it.
+                } catch (IOException e) {
+                    e.printStackTrace(); // nothing else we can do with this.
+                }
+            }
         }
     }
 }
