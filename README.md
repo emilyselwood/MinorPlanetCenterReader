@@ -53,7 +53,7 @@ public class example {
         MinorPlanetReader reader = null;
         try {
             MinorPlanetReaderBuilder builder = new MinorPlanetReaderBuilder();
-            builder.open(new File("./mpn.txt").numberedFile();
+            builder.open(new File("./mpn.txt")).numberedFile();
 
             reader = builder.build();
             while(reader.hasNext()) {
