@@ -24,7 +24,7 @@ public class TestNumberedMinorPlanetReader {
     public void testBasicLoad() throws IOException, InvalidDataException {
 
         String filePath = this.getClass().getResource("test1.txt").getFile();
-        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).numberedFile().build();
+        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).build();
 
         assert(reader.hasNext());
         MinorPlanet result = reader.next();
@@ -53,7 +53,7 @@ public class TestNumberedMinorPlanetReader {
     @Test
     public void testMissingUncertaintyParameter() throws IOException, InvalidDataException {
         String filePath = this.getClass().getResource("MissingUncertaintyParameter.txt").getFile();
-        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).numberedFile().build();
+        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).build();
 
         assert(reader.hasNext());
 

@@ -21,7 +21,7 @@ public class TestUnnumberedMinorPlanetReader {
     public void testBasicLoad() throws IOException, InvalidDataException {
 
         String filePath = this.getClass().getResource("unnumbered_test1.txt").getFile();
-        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).unNumberedFile().build();
+        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).build();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));

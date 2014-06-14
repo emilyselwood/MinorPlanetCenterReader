@@ -6,8 +6,7 @@ import com.wselwood.mpcreader.modifiers.Modifier;
 import com.wselwood.mpcreader.modifiers.RadianModifier;
 import com.wselwood.mpcreader.modifiers.YearOfObservationModifier;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -21,7 +20,8 @@ public class MinorPlanetReaderBuilder {
 
     enum FileType {
         NUMBERED,
-        UNNUMBERED
+        UNNUMBERED,
+        DETECT
     }
 
     private File target = null;
@@ -70,6 +70,11 @@ public class MinorPlanetReaderBuilder {
         return this;
     }
 
+    public MinorPlanetReaderBuilder detectNumbering() {
+        fileType = FileType.DETECT;
+        return this;
+    }
+
 
     /**
      * Should angles in the file be converted to radians.
@@ -88,11 +93,35 @@ public class MinorPlanetReaderBuilder {
      * @throws IOException if there is any problem opening the file.
      */
     public MinorPlanetReader build() throws IOException {
+        if(fileType == FileType.DETECT || fileType == null) {
+            detectFileType();
+        }
         buildColumns();
         buildModifiers();
         return new MinorPlanetReader(target, columns, modifiers, values);
     }
 
+    /**
+     * try and work out what the incoming file is. Look at the first 7 bytes of the file and if any of them
+     * are not numbers then it is probably a unNumbered file.
+     * @throws IOException
+     */
+    private void detectFileType() throws IOException {
+
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(target))) {
+            //bufferedReader = new BufferedReader(new FileReader(target));
+            char[] buffer = new char[7];
+            bufferedReader.read(buffer);
+            for (int i = 1; i < 6; i++) {
+                if (buffer[i] != ' ' && (buffer[i] < '0' || buffer[i] > '9')) { // entry is not a number
+                    fileType = FileType.UNNUMBERED;
+                    return;
+                }
+            }
+            fileType = FileType.NUMBERED;
+        }
+
+    }
 
     // see http://www.minorplanetcenter.net/iau/info/MPOrbitFormat.html
     // column list indexes from 1. need to index from zero for java buffer access.

@@ -22,9 +22,9 @@ Place the jar in your applications class path as with any other dependency not p
 
 To construct a reader you first need a ```com.wselwood.mpcreader.MinorPlanetReaderBuilder``` this will allow you to set the needed options on the reader before construction.
 
-The two required options are the file to open set with the ```open(File f)``` method and the type of file set with either ```numberedFile()``` or ```unNumberedFile()```
+The one required option is the file to open set with the ```open(File f)``` method. You can optionally set the type of file set with either ```numberedFile()``` or ```unNumberedFile()``` if you do not set this it will attempt to autodetect the file type by looking at the first entry in the file. If it contains any letters in the identifier column it will assume it is an un-numbered file.
 
-Other options will be added in the future. We plan to add options for automatic conversion of angle values to radians and other options we find useful.
+Calling the ```convertAngles()``` method on the builder will convert all the angles in the file into radians rather than degrees. This may be useful if you are doing any orbital calculations as most of the java maths functions take radian angles. Note this will induce a small rounding error from dividing double values.
 
 Finally when you have your builder in the state you want call the ```build()``` method which will construct the ```com.wselwood.mpcreader.MinorPlanetReader``` Note this method can throw an IOException
 
@@ -53,7 +53,7 @@ public class example {
         MinorPlanetReader reader = null;
         try {
             MinorPlanetReaderBuilder builder = new MinorPlanetReaderBuilder();
-            builder.open(new File("./mpn.txt")).numberedFile();
+            builder.open(new File("./mpn.txt"));
 
             reader = builder.build();
             while(reader.hasNext()) {
