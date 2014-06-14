@@ -17,7 +17,7 @@ public class ArcLengthModifier implements Modifier {
     @Override
     public void process() throws InvalidDataException {
         if(num.get() <= 1) {
-            arcLength.set(Integer.parseInt(input.get().substring(0, 3)));
+            arcLength.set(Integer.parseInt(input.get().split(" ", 2)[0].trim()));
         }
         else {
             arcLength.set(-1);

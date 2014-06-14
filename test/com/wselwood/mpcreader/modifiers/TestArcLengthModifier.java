@@ -26,6 +26,23 @@ public class TestArcLengthModifier {
     }
 
     @Test
+    public void shortEntryHappyPath() throws InvalidDataException {
+        Container<Integer> num = new Container<>();
+        Container<String> input = new Container<>();
+        Container<Integer> arcLength = new Container<>();
+
+        Modifier mod = new ArcLengthModifier(num, input, arcLength);
+
+        num.set(1);
+        input.set("12  days");
+        arcLength.reset();
+
+        mod.process();
+
+        assertEquals(12, arcLength.get().longValue());
+    }
+
+    @Test
     public void doNothingPath() throws InvalidDataException {
         Container<Integer> num = new Container<>();
         Container<String> input = new Container<>();
