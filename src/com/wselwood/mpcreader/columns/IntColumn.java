@@ -16,7 +16,9 @@ public class IntColumn implements Column<Integer> {
     @Override
     public void process(char[] buffer) throws InvalidDataException {
         String value = new String(buffer, start, count).trim();
-        row.set(Integer.parseInt(value));
+        if(!value.isEmpty()) {
+            row.set(Integer.parseInt(value));
+        }
     }
 
     private final int start;

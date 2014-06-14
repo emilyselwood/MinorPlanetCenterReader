@@ -66,6 +66,36 @@ public class TestUnnumberedMinorPlanetReader {
 
     }
 
+    @Test
+    public void testMissingRMS() throws IOException, InvalidDataException {
+        String filePath = this.getClass().getResource("MissingRMSResidual.txt").getFile();
+        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).unNumberedFile().build();
+
+        assert(reader.hasNext());
+
+        MinorPlanet result = reader.next();
+
+        assertFalse(reader.hasNext());
+        assertEquals(null, result.getrMSResidual());
+        assertEquals("1927 LA", result.getNumber());
+
+    }
+
+    @Test
+    public void testMissingNumberOfObservations() throws IOException, InvalidDataException {
+        String filePath = this.getClass().getResource("MissingNumberOfObservations.txt").getFile();
+        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).unNumberedFile().build();
+
+        assert(reader.hasNext());
+
+        MinorPlanet result = reader.next();
+
+        assertFalse(reader.hasNext());
+        assertEquals(null, result.getNumberOfObservations());
+        assertEquals("1994 EJ", result.getNumber());
+
+    }
+
     private void verify1960SW(MinorPlanet result) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -87,8 +117,8 @@ public class TestUnnumberedMinorPlanetReader {
         assertEquals("1", result.getUncertaintyParameter());
         assertEquals("MPO157334", result.getReference());
 
-        assertEquals(75, result.getNumberOfObservations());
-        assertEquals(5, result.getNumberOfOppositions());
+        assertEquals(75, result.getNumberOfObservations().intValue());
+        assertEquals(5L, result.getNumberOfOppositions().intValue());
 
         assertEquals(1960, result.getYearOfFirstObservation());
         assertEquals(2009, result.getYearOfLastObservation());

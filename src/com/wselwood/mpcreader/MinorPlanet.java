@@ -24,9 +24,9 @@ public class MinorPlanet {
     private final double semimajorAxis;
     private final String uncertaintyParameter;
     private final String reference;
-    private final int    numberOfObservations;
-    private final int    numberOfOppositions;
-    private final double rMSResidual;
+    private final Integer numberOfObservations;
+    private final Integer numberOfOppositions;
+    private final Double rMSResidual;
     private final String coarseIndicatorOfPerturbers;
     private final String preciseIndicatorOfPerturbers;
     private final String computerName;
@@ -45,8 +45,8 @@ public class MinorPlanet {
     public MinorPlanet(String number, Double absoluteMagnitude, Double slope, Date epoch, double meanAnomalyEpoch,
                        double argumentOfPerihelion, double longitudeOfTheAscendingNode, double inclinationToTheEcliptic,
                        double orbitalEccentricity, double meanDailyMotion, double semimajorAxis,
-                       String uncertaintyParameter, String reference, int numberOfObservations, int numberOfOppositions,
-                       int yearOfFirstObservation, int yearOfLastObservation, int arcLength, double rMSResidual, String coarseIndicatorOfPerturbers,
+                       String uncertaintyParameter, String reference, Integer numberOfObservations, Integer numberOfOppositions,
+                       int yearOfFirstObservation, int yearOfLastObservation, int arcLength, Double rMSResidual, String coarseIndicatorOfPerturbers,
                        String preciseIndicatorOfPerturbers, String computerName, int hexDigitFlags,
                        String readableDesignation, Date dateOfLastObservation) {
         this.number = number;
@@ -131,15 +131,15 @@ public class MinorPlanet {
         return reference;
     }
 
-    public int getNumberOfObservations() {
+    public Integer getNumberOfObservations() {
         return numberOfObservations;
     }
 
-    public int getNumberOfOppositions() {
+    public Integer getNumberOfOppositions() {
         return numberOfOppositions;
     }
 
-    public double getrMSResidual() {
+    public Double getrMSResidual() {
         return rMSResidual;
     }
 

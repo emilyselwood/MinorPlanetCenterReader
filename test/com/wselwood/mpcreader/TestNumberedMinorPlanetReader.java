@@ -86,8 +86,8 @@ public class TestNumberedMinorPlanetReader {
         assertEquals("0", result.getUncertaintyParameter());
         assertEquals("MPO286777", result.getReference());
 
-        assertEquals(6502, result.getNumberOfObservations());
-        assertEquals(105, result.getNumberOfOppositions());
+        assertEquals(6502, result.getNumberOfObservations().intValue());
+        assertEquals(105, result.getNumberOfOppositions().intValue());
 
         assertEquals(1802, result.getYearOfFirstObservation());
         assertEquals(2014, result.getYearOfLastObservation());
