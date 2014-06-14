@@ -12,8 +12,8 @@ import java.util.Date;
 public class MinorPlanet {
 
     private final String number;
-    private final double absoluteMagnitude;
-    private final double slope;
+    private final Double absoluteMagnitude;
+    private final Double slope;
     private final Date epoch;
     private final double meanAnomalyEpoch;
     private final double argumentOfPerihelion;
@@ -42,7 +42,7 @@ public class MinorPlanet {
     /**
      * You do not want to use this. These should only be constructed from the readers.
      */
-    public MinorPlanet(String number, double absoluteMagnitude, double slope, Date epoch, double meanAnomalyEpoch,
+    public MinorPlanet(String number, Double absoluteMagnitude, Double slope, Date epoch, double meanAnomalyEpoch,
                        double argumentOfPerihelion, double longitudeOfTheAscendingNode, double inclinationToTheEcliptic,
                        double orbitalEccentricity, double meanDailyMotion, double semimajorAxis,
                        String uncertaintyParameter, String reference, int numberOfObservations, int numberOfOppositions,
@@ -83,11 +83,11 @@ public class MinorPlanet {
         return number;
     }
 
-    public double getAbsoluteMagnitude() {
+    public Double getAbsoluteMagnitude() {
         return absoluteMagnitude;
     }
 
-    public double getSlope() {
+    public Double getSlope() {
         return slope;
     }
 

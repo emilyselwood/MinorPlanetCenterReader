@@ -16,8 +16,9 @@ public class FloatColumn implements Column<Double> {
     @Override
     public void process(char[] buffer) throws InvalidDataException {
         String value = new String(buffer, start, count).trim();
-
-        row.set(Double.parseDouble(value));
+        if(!value.isEmpty()) {
+            row.set(Double.parseDouble(value));
+        }
     }
 
     private final int start;

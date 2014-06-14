@@ -51,6 +51,21 @@ public class TestUnnumberedMinorPlanetReader {
 
     }
 
+    @Test
+    public void testMissingMagnitude() throws IOException, InvalidDataException {
+        String filePath = this.getClass().getResource("MissingMagnitude.txt").getFile();
+        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).unNumberedFile().build();
+
+        assert(reader.hasNext());
+
+        MinorPlanet result = reader.next();
+
+        assertFalse(reader.hasNext());
+        assertEquals(null, result.getAbsoluteMagnitude());
+        assertEquals("2010 AV83", result.getNumber());
+
+    }
+
     private void verify1960SW(MinorPlanet result) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
