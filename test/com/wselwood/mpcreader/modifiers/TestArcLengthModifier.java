@@ -17,12 +17,12 @@ public class TestArcLengthModifier {
         Modifier mod = new ArcLengthModifier(num, input, arcLength);
 
         num.set(1);
-        input.set("1234");
+        input.set("123 days");
         arcLength.reset();
 
         mod.process();
 
-        assertEquals(1234, arcLength.get().longValue());
+        assertEquals(123, arcLength.get().longValue());
     }
 
     @Test
@@ -34,7 +34,7 @@ public class TestArcLengthModifier {
         Modifier mod = new ArcLengthModifier(num, input, arcLength);
 
         num.set(2);
-        input.set("1234");
+        input.set("123 days");
         arcLength.reset();
 
         mod.process();
