@@ -19,7 +19,7 @@ public class MinorPlanetReader {
     /**
      * Use the MinorPlanetReaderBuilder to construct this class. You are not expected to call this directly.
      */
-    public MinorPlanetReader(File input, List<Column> columns, List<Modifier> modifiers, Map<String, Container> containers) throws IOException {
+    public MinorPlanetReader(File input, boolean compressed, List<Column> columns, List<Modifier> modifiers, Map<String, Container> containers) throws IOException {
 
         if(!input.exists()) {
             throw new FileNotFoundException("Minor Planet file could not be found");
@@ -37,7 +37,7 @@ public class MinorPlanetReader {
 
         buffer = new char[203];
 
-        bufferedReader = new BufferedReader(new FileReader(input));
+        bufferedReader = MinorPlanetReaderBuilder.buildReader(input, compressed);
 
     }
 

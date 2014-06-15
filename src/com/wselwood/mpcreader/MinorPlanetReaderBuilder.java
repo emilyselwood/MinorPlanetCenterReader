@@ -8,6 +8,7 @@ import com.wselwood.mpcreader.modifiers.YearOfObservationModifier;
 
 import java.io.*;
 import java.util.*;
+import java.util.zip.GZIPInputStream;
 
 /**
  * Simple builder pattern to create a minor planet reader.
@@ -24,8 +25,12 @@ public class MinorPlanetReaderBuilder {
         DETECT
     }
 
+
+
     private File target = null;
     private FileType fileType = null;
+
+    private Boolean compressed = null;
 
     private boolean convertToRaidians = false;
 
@@ -75,6 +80,15 @@ public class MinorPlanetReaderBuilder {
         return this;
     }
 
+    public MinorPlanetReaderBuilder compressed() {
+        compressed = true;
+        return this;
+    }
+
+    public MinorPlanetReaderBuilder unCompressed() {
+        compressed = false;
+        return this;
+    }
 
     /**
      * Should angles in the file be converted to radians.
@@ -93,12 +107,29 @@ public class MinorPlanetReaderBuilder {
      * @throws IOException if there is any problem opening the file.
      */
     public MinorPlanetReader build() throws IOException {
+
+        if(compressed == null) {
+            detectCompression();
+        }
+
         if(fileType == FileType.DETECT || fileType == null) {
             detectFileType();
         }
         buildColumns();
         buildModifiers();
-        return new MinorPlanetReader(target, columns, modifiers, values);
+        return new MinorPlanetReader(target, compressed, columns, modifiers, values);
+    }
+
+    private void detectCompression() throws IOException {
+        try(FileInputStream bufferedReader = new FileInputStream(target)) {
+            byte[] buffer = new byte[3];
+            int bytesRead = bufferedReader.read(buffer);
+            if(bytesRead != 3) {
+                throw new IOException("File appears to be empty");
+            }
+            // gzip flag on the front.
+            compressed = buffer[0] == 31 && buffer[1] == -117;
+        }
     }
 
     /**
@@ -108,8 +139,7 @@ public class MinorPlanetReaderBuilder {
      */
     private void detectFileType() throws IOException {
 
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(target))) {
-            //bufferedReader = new BufferedReader(new FileReader(target));
+        try(BufferedReader bufferedReader = buildReader()) {
             char[] buffer = new char[7];
             bufferedReader.read(buffer);
             for (int i = 1; i < 6; i++) {
@@ -122,6 +152,20 @@ public class MinorPlanetReaderBuilder {
         }
 
     }
+
+    private BufferedReader buildReader() throws IOException {
+        return buildReader(target, compressed);
+    }
+
+    public static BufferedReader buildReader(File target, boolean compressed) throws IOException {
+        if( compressed) {
+            return new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(target))));
+        }
+        else {
+            return new BufferedReader(new FileReader(target));
+        }
+    }
+
 
     // see http://www.minorplanetcenter.net/iau/info/MPOrbitFormat.html
     // column list indexes from 1. need to index from zero for java buffer access.

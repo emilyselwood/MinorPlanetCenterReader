@@ -51,9 +51,39 @@ public class TestNumberedMinorPlanetReader {
     }
 
     @Test
+    public void testCompressedMultiRecords() throws IOException, InvalidDataException {
+        String filePath = this.getClass().getResource("test10compressed.txt.gz").getFile();
+        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).build();
+
+        List<MinorPlanet> result = new ArrayList<>();
+
+        while(reader.hasNext()) {
+            result.add(reader.next());
+        }
+
+        assertEquals(10, result.size());
+        verifyCeres(result.get(0));
+    }
+
+    @Test
+    public void testToldCompressedMultiRecords() throws IOException, InvalidDataException {
+        String filePath = this.getClass().getResource("test10compressed.txt.gz").getFile();
+        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).compressed().build();
+
+        List<MinorPlanet> result = new ArrayList<>();
+
+        while(reader.hasNext()) {
+            result.add(reader.next());
+        }
+
+        assertEquals(10, result.size());
+        verifyCeres(result.get(0));
+    }
+
+    @Test
     public void testMissingUncertaintyParameter() throws IOException, InvalidDataException {
         String filePath = this.getClass().getResource("MissingUncertaintyParameter.txt").getFile();
-        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).build();
+        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).unCompressed().build();
 
         assert(reader.hasNext());
 

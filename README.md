@@ -22,7 +22,9 @@ Place the jar in your applications class path as with any other dependency not p
 
 To construct a reader you first need a ```com.wselwood.mpcreader.MinorPlanetReaderBuilder``` this will allow you to set the needed options on the reader before construction.
 
-The one required option is the file to open set with the ```open(File f)``` method. You can optionally set the type of file set with either ```numberedFile()``` or ```unNumberedFile()``` if you do not set this it will attempt to autodetect the file type by looking at the first entry in the file. If it contains any letters in the identifier column it will assume it is an un-numbered file.
+The one required option is the file to open set with the ```open(File f)``` method. You can optionally set the type of file set with either ```numberedFile()``` or ```unNumberedFile()``` if you do not set this it will attempt to autodetect the file type by looking at the first entry in the file. If it contains any letters in the identifier column it will assume it is an un-numbered file. If you want to be explicit you can call ```detectNumbering()``` on the builder to set this action but it will also default to this.
+
+If the file is gzip compressed the builder will detect this. It looks at the first two bytes of the file having the gzip header so it doesn't matter if the file does not have the .gz extension. If some how this goes wrong you can set ```compressed()``` or ```unCompressed()``` on the builder to turn on or off compressed reading.
 
 Calling the ```convertAngles()``` method on the builder will convert all the angles in the file into radians rather than degrees. This may be useful if you are doing any orbital calculations as most of the java maths functions take radian angles. Note this will induce a small rounding error from dividing double values.
 
