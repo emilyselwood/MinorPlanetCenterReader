@@ -19,7 +19,6 @@ public class TestRadianReader {
         String filePath = this.getClass().getResource("test1.txt").getFile();
         MinorPlanetReader reader = new MinorPlanetReaderBuilder()
                 .open(new File(filePath))
-                .numberedFile()
                 .convertAngles()
                 .build();
 
@@ -54,7 +53,6 @@ public class TestRadianReader {
         String filePath = this.getClass().getResource("unnumbered_test1.txt").getFile();
         MinorPlanetReader reader = new MinorPlanetReaderBuilder()
                 .open(new File(filePath))
-                .unNumberedFile()
                 .convertAngles()
                 .build();
 

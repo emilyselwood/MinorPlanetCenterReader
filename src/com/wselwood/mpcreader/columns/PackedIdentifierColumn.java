@@ -23,7 +23,10 @@ public class PackedIdentifierColumn implements Column<String> {
     public void process(char[] buffer) throws InvalidDataException {
 
         String result;
-        if(buffer[start+2] >= '0' && buffer[start+2] <= '9') {
+        if(!anyLetters(buffer)) {
+            result = String.valueOf(ColumnUtils.decodePackedInt(buffer, start, 6));
+        }
+        else if(buffer[start+2] >= '0' && buffer[start+2] <= '9') {
             result = String.valueOf(ColumnUtils.decodePackedInt(buffer, start, 3)) + " " + buffer[start + 3] + buffer[start + 6];
 
             int number = ColumnUtils.decodePackedInt(buffer, 4,2);
@@ -37,6 +40,15 @@ public class PackedIdentifierColumn implements Column<String> {
             result = String.valueOf(number) + ' ' + buffer[start] + '-' + buffer[start+1];
         }
         row.set(result);
+    }
+
+    private boolean anyLetters(char[] buffer) {
+        for(int i = 1; i < 6; i++) {
+            if(buffer[start + i] != ' ' && (buffer[start + i] < '0' || buffer[start + i] > '9')) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private final int start;

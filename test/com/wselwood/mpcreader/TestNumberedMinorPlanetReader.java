@@ -38,7 +38,7 @@ public class TestNumberedMinorPlanetReader {
     @Test
     public void testMultiRecords() throws IOException, InvalidDataException {
         String filePath = this.getClass().getResource("test10.txt").getFile();
-        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).numberedFile().build();
+        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).build();
 
         List<MinorPlanet> result = new ArrayList<>();
 
@@ -91,6 +91,22 @@ public class TestNumberedMinorPlanetReader {
 
         assertFalse(reader.hasNext());
         assertEquals("", result.getUncertaintyParameter());
+
+    }
+
+    @Test
+    public void testHeadersAndBlankLines() throws IOException, InvalidDataException {
+        String filePath = this.getClass().getResource("HeaderAndBlankLines.txt").getFile();
+        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).unCompressed().build();
+
+        List<MinorPlanet> result = new ArrayList<>();
+
+        while(reader.hasNext()) {
+            result.add(reader.next());
+        }
+
+        assertEquals(10, result.size());
+        verifyCeres(result.get(0));
 
     }
 

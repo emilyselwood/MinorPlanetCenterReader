@@ -19,16 +19,8 @@ import java.util.zip.GZIPInputStream;
  */
 public class MinorPlanetReaderBuilder {
 
-    enum FileType {
-        NUMBERED,
-        UNNUMBERED,
-        DETECT
-    }
-
-
 
     private File target = null;
-    private FileType fileType = null;
 
     private Boolean compressed = null;
 
@@ -52,31 +44,6 @@ public class MinorPlanetReaderBuilder {
      */
     public MinorPlanetReaderBuilder open(File f) {
         target = f;
-        return this;
-    }
-
-    /**
-     * Setup the reader to read the numbered file format.
-     *
-     * The first column of the file will be a packed int.
-     */
-    public MinorPlanetReaderBuilder numberedFile() {
-        fileType = FileType.NUMBERED;
-        return this;
-    }
-
-    /**
-     * Setup the reader to read the unnumbered file format.
-     *
-     * The first column of the file will be a packed identifier.
-     */
-    public MinorPlanetReaderBuilder unNumberedFile() {
-        fileType = FileType.UNNUMBERED;
-        return this;
-    }
-
-    public MinorPlanetReaderBuilder detectNumbering() {
-        fileType = FileType.DETECT;
         return this;
     }
 
@@ -112,14 +79,15 @@ public class MinorPlanetReaderBuilder {
             detectCompression();
         }
 
-        if(fileType == FileType.DETECT || fileType == null) {
-            detectFileType();
-        }
         buildColumns();
         buildModifiers();
         return new MinorPlanetReader(target, compressed, columns, modifiers, values);
     }
 
+    /**
+     * look for the gzip magic number at the start of the file
+     * @throws IOException
+     */
     private void detectCompression() throws IOException {
         try(FileInputStream bufferedReader = new FileInputStream(target)) {
             byte[] buffer = new byte[3];
@@ -127,42 +95,8 @@ public class MinorPlanetReaderBuilder {
             if(bytesRead != 3) {
                 throw new IOException("File appears to be empty");
             }
-            // gzip flag on the front.
+            // is there a gzip flag on the front.
             compressed = buffer[0] == 31 && buffer[1] == -117;
-        }
-    }
-
-    /**
-     * try and work out what the incoming file is. Look at the first 7 bytes of the file and if any of them
-     * are not numbers then it is probably a unNumbered file.
-     * @throws IOException
-     */
-    private void detectFileType() throws IOException {
-
-        try(BufferedReader bufferedReader = buildReader()) {
-            char[] buffer = new char[7];
-            bufferedReader.read(buffer);
-            for (int i = 1; i < 6; i++) {
-                if (buffer[i] != ' ' && (buffer[i] < '0' || buffer[i] > '9')) { // entry is not a number
-                    fileType = FileType.UNNUMBERED;
-                    return;
-                }
-            }
-            fileType = FileType.NUMBERED;
-        }
-
-    }
-
-    private BufferedReader buildReader() throws IOException {
-        return buildReader(target, compressed);
-    }
-
-    public static BufferedReader buildReader(File target, boolean compressed) throws IOException {
-        if( compressed) {
-            return new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(target))));
-        }
-        else {
-            return new BufferedReader(new FileReader(target));
         }
     }
 
@@ -176,16 +110,9 @@ public class MinorPlanetReaderBuilder {
     // i4 integer four digits long.
     private void buildColumns() {
 
-        if(fileType == FileType.NUMBERED) {
-            Container<Integer> container = new Container<>();
-            values.put(ColumnNames.MPC_NUMBER, container);
-            columns.add(new PackedIntColumn(0, 5, container));
-        }
-        else if(fileType == FileType.UNNUMBERED) {
-            Container<String> container = new Container<>();
-            values.put(ColumnNames.MPC_NUMBER, container);
-            columns.add(new PackedIdentifierColumn(0, 6, container));
-        }
+        Container<String> container = new Container<>();
+        values.put(ColumnNames.MPC_NUMBER, container);
+        columns.add(new PackedIdentifierColumn(0, 6, container));
 
         addDouble(ColumnNames.MPC_MAGNITUDE,                8, 13);
         addDouble(ColumnNames.MPC_SLOPE,                    14, 19);

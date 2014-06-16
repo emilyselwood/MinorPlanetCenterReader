@@ -5,6 +5,7 @@ import com.wselwood.mpcreader.modifiers.Modifier;
 
 import java.io.*;
 import java.util.*;
+import java.util.zip.GZIPInputStream;
 
 /**
  * The basic part of a reader for the minor planet center catalogues.
@@ -15,6 +16,7 @@ import java.util.*;
  */
 public class MinorPlanetReader {
 
+    public static final int BUFFER_LENGTH = 203;
 
     /**
      * Use the MinorPlanetReaderBuilder to construct this class. You are not expected to call this directly.
@@ -35,9 +37,9 @@ public class MinorPlanetReader {
         this.modifiers = modifiers;
         this.values = containers;
 
-        buffer = new char[203];
+        buffer = new char[BUFFER_LENGTH];
 
-        bufferedReader = MinorPlanetReaderBuilder.buildReader(input, compressed);
+        bufferedReader = buildReader(input, compressed);
 
     }
 
@@ -60,28 +62,25 @@ public class MinorPlanetReader {
      * @throws InvalidDataException if the record read from the file is invalid.
      */
     public MinorPlanet next() throws IOException, InvalidDataException {
+        try {
+            resetColumns();
 
-        resetColumns();
+            findNextRecord(0);
 
-        int length = bufferedReader.read(buffer);
+            for (Column c : columns) {
+                c.process(buffer);
+            }
 
-        if(length != 203) {
-            throw new InvalidDataException("Row of incorrect length");
+            for (Modifier m : modifiers) {
+                m.process();
+            }
+
+            return constructMinorPlanet();
+        }
+        catch(Exception e) {
+            throw new InvalidDataException("error on line " + lineNumber, e);
         }
 
-        if(buffer[202] != '\n') {
-            throw new InvalidDataException("Row does not end with new line");
-        }
-
-        for(Column c : columns) {
-            c.process(buffer);
-        }
-
-        for(Modifier m : modifiers) {
-            m.process();
-        }
-
-        return constructMinorPlanet();
     }
 
     /**
@@ -92,10 +91,63 @@ public class MinorPlanetReader {
         bufferedReader.close();
     }
 
+    /**
+     * build either a compressed reader or not. Extracted logic that's in several places.
+     * @param target file to open
+     * @param compressed should a compressed reader be created
+     * @return buffered reader for the target file.
+     * @throws IOException error opening file.
+     */
+    private BufferedReader buildReader(File target, boolean compressed) throws IOException {
+        if(compressed) {
+            return new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(target))));
+        }
+        else {
+            return new BufferedReader(new FileReader(target));
+        }
+    }
+
+    /**
+     * find the next line that is the right length.
+     *
+     * while this is recursive we are assuming that there will not be 1024 (default stack size) invalid lines in a row.
+     * @param bufferOffset where the start of the buffer we need to write into is.
+     * @throws IOException problems reading the file
+     * @throws InvalidDataException problems with the data in the file,
+     */
+    private void findNextRecord(int bufferOffset) throws IOException, InvalidDataException {
+        int length = bufferedReader.read(buffer, bufferOffset, MinorPlanetReader.BUFFER_LENGTH - bufferOffset);
+
+        if(length != MinorPlanetReader.BUFFER_LENGTH - bufferOffset) {
+            throw new IOException("Not enough data in the file");
+        }
+
+        int newLine = -1;
+        for(int i = 0; i < MinorPlanetReader.BUFFER_LENGTH-1; i++) { // we need to check all but the last character as that is meant to be a new line
+            if(buffer[i] == '\n') {
+                lineNumber = lineNumber + 1;
+                newLine = i + 1;
+                break;
+            }
+        }
+
+        if(newLine != -1) {
+            int j = 0;
+            for (int i = newLine; i < MinorPlanetReader.BUFFER_LENGTH; i++) {
+                buffer[j] = buffer[i];
+                j++;
+            }
+            findNextRecord(j);
+        }
+        lineNumber = lineNumber + 1;
+    }
+
+
+
     private MinorPlanet constructMinorPlanet() {
         // casting due to the compiler not being able to understand each map entry having different generic types.
         return new MinorPlanet(
-                (String) values.get(ColumnNames.MPC_NUMBER).get().toString(),
+                (String) values.get(ColumnNames.MPC_NUMBER).get(),
                 (Double) values.get(ColumnNames.MPC_MAGNITUDE).get(),
                 (Double) values.get(ColumnNames.MPC_SLOPE).get(),
                 (Date)   values.get(ColumnNames.MPC_EPOCH).get(),
@@ -132,6 +184,7 @@ public class MinorPlanetReader {
 
     private final char[] buffer;
     private final BufferedReader bufferedReader;
+    private int lineNumber = 0;
 
     protected final List<Column> columns;
     protected final List<Modifier> modifiers;

@@ -40,7 +40,7 @@ public class TestUnnumberedMinorPlanetReader {
     @Test
     public void testLetterUncertaintyParameter() throws IOException, InvalidDataException {
         String filePath = this.getClass().getResource("LetterUncertaintyParameter.txt").getFile();
-        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).unNumberedFile().build();
+        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).build();
 
         assert(reader.hasNext());
 
@@ -54,7 +54,7 @@ public class TestUnnumberedMinorPlanetReader {
     @Test
     public void testMissingMagnitude() throws IOException, InvalidDataException {
         String filePath = this.getClass().getResource("MissingMagnitude.txt").getFile();
-        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).unNumberedFile().build();
+        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).build();
 
         assert(reader.hasNext());
 
@@ -69,7 +69,7 @@ public class TestUnnumberedMinorPlanetReader {
     @Test
     public void testMissingRMS() throws IOException, InvalidDataException {
         String filePath = this.getClass().getResource("MissingRMSResidual.txt").getFile();
-        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).unNumberedFile().build();
+        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).build();
 
         assert(reader.hasNext());
 
@@ -84,7 +84,7 @@ public class TestUnnumberedMinorPlanetReader {
     @Test
     public void testMissingNumberOfObservations() throws IOException, InvalidDataException {
         String filePath = this.getClass().getResource("MissingNumberOfObservations.txt").getFile();
-        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).unNumberedFile().build();
+        MinorPlanetReader reader = new MinorPlanetReaderBuilder().open(new File(filePath)).build();
 
         assert(reader.hasNext());
 
