@@ -7,7 +7,7 @@ This can handle reading either the MPCORB.DAT file, compressed or otherwise and 
 
 ## Setup ##
 
-Currently we don't have a maven repo hosting this so you will need to build the jars your self.
+Currently we don't have a maven repo hosting this so you will need to build the jars your self. It is being worked on, hopefully it wont be too much longer.
 ```
 $ git clone https://github.com/wselwood/MinorPlanetCenterReader.git
 $ cd MinorPlanetCenterReader
