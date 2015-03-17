@@ -1,7 +1,11 @@
 apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 sourceCompatibility = 1.7
-version = '0.0.1'
+group = "com.github.wselwood"
+archivesBaseName = "mpc-reader"
+version = '0.1.0'
 
 repositories {
     mavenCentral()
@@ -29,11 +33,9 @@ sourceSets {
 
 jar {
     manifest {
-        attributes("Implementation-Title": "MinorPlanetCenterReader", "Implementation-Version": version)
+        attributes("Implementation-Title": "mpc-reader", "Implementation-Version": version)
     }
 }
-
-
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
@@ -50,3 +52,58 @@ artifacts {
     archives javadocJar
 }
 
+// Only enable signing of the jars and uploading gpg --list-keysif a key has been set up correctly.
+if (project.properties['signing.secretKeyRingFile']
+        && file(project.properties['signing.secretKeyRingFile']).exists()) {
+
+    signing {
+        sign configurations.archives
+    }
+
+
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                pom.project {
+                    name 'Minor Planet Center Reader'
+                    packaging 'jar'
+                    // optionally artifactId can be defined here
+                    description 'A Reader for minor planet center data files.'
+                    url 'https://github.com/wselwood/MinorPlanetCenterReader'
+
+                    scm {
+                        connection 'https://github.com/wselwood/MinorPlanetCenterReader.git'
+                        developerConnection 'git@github.com:wselwood/MinorPlanetCenterReader.git'
+                        url 'https://github.com/wselwood/MinorPlanetCenterReader'
+                    }
+
+                    licenses {
+                        license {
+                            name 'MIT License'
+                            url 'http://www.opensource.org/licenses/mit-license.php'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id 'wselwood'
+                            name 'William Selwood'
+                            email 'wselwood@gmail.com'
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
