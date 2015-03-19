@@ -5,20 +5,22 @@ This java library provides a way to read the Minor Planet Catalogues provided by
 
 This can handle reading either the MPCORB.DAT file, compressed or otherwise and the mpX.txt type files.
 
-## Setup ##
+## Dependencies ##
 
-Currently we don't have a maven repo hosting this so you will need to build the jars your self. It is being worked on, hopefully it wont be too much longer.
+We have artifacts hosted on Maven Central. http://search.maven.org/#search|ga|1|mpc-reader 
+
+Gradle: ```compile 'com.github.wselwood:mpc-reader:0.1.0'```
+
+SBT: ```libraryDependencies += "com.github.wselwood" % "mpc-reader" % "0.1.0"```
+
+Maven: 
 ```
-$ git clone https://github.com/wselwood/MinorPlanetCenterReader.git
-$ cd MinorPlanetCenterReader
-$ ./gradlew build
+<dependency>
+    <groupId>com.github.wselwood</groupId>
+    <artifactId>mpc-reader</artifactId>
+    <version>0.1.0</version>
+</dependency>
 ```
-
-The jars will end up in ./build/libs/
-
-See the ```./graldew tasks``` for other options.
- 
-Place the jar in your applications class path as with any other dependency not pulled from maven.
 
 ## Usage ##
 
@@ -79,3 +81,17 @@ public class example {
     }
 }
 ```
+
+## Building ##
+
+If you want to checkout and build the project follow these steps:
+
+```
+$ git clone https://github.com/wselwood/MinorPlanetCenterReader.git
+$ cd MinorPlanetCenterReader
+$ ./gradlew build
+```
+
+The jars will end up in ./build/libs/
+
+See the ```./graldew tasks``` for other options.
