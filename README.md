@@ -1,7 +1,7 @@
 # Minor Planet Center Reader #
 
 [![Build Status](https://travis-ci.org/wselwood/MinorPlanetCenterReader.svg?branch=master)](https://travis-ci.org/wselwood/MinorPlanetCenterReader)
-[![Maven Central](https://img.shields.io/badge/maven--central-0.1.0-brightgreen.svg)](http://search.maven.org/#artifactdetails|com.github.wselwood|mpc-reader|0.1.0|jar)
+[![Maven Central](https://img.shields.io/badge/maven--central-0.1.1-brightgreen.svg)](http://search.maven.org/#artifactdetails|com.github.wselwood|mpc-reader|0.1.1|jar)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/wselwood/MinorPlanetCenterReader/blob/master/LICENSE.md)
 
 ## Overview ##
@@ -13,9 +13,11 @@ This can handle reading either the MPCORB.DAT file, compressed or otherwise and 
 
 We have artifacts hosted on Maven Central. http://search.maven.org/#search|ga|1|mpc-reader 
 
-Gradle: ```compile 'com.github.wselwood:mpc-reader:0.1.0'```
+Gradle:
+```compile 'com.github.wselwood:mpc-reader:0.1.1'```
 
-SBT: ```libraryDependencies += "com.github.wselwood" % "mpc-reader" % "0.1.0"```
+SBT:
+```libraryDependencies += "com.github.wselwood" % "mpcreader" % "0.1.1"```
 
 Maven: 
 ```
@@ -100,3 +102,9 @@ $ ./gradlew build
 The jars will end up in ./build/libs/
 
 See the ```./graldew tasks``` for other options.
+
+## Change log ##
+
+v0.1.1 Fix timezone bug in unpacked dates.
+
+v0.1.0 Initial release
