@@ -1,5 +1,8 @@
 # Minor Planet Center Reader #
 
+[![Maven Central](https://img.shields.io/badge/maven--central-0.1.0-brightgreen.svg)](http://search.maven.org/#artifactdetails|com.github.wselwood|mpc-reader|0.1.0|jar)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/wselwood/MinorPlanetCenterReader/blob/master/LICENSE.md)
+
 ## Overview ##
 This java library provides a way to read the Minor Planet Catalogues provided by the Minor Planets Center.
 
@@ -27,7 +30,7 @@ Maven:
 Also see src/com/wselwood/mpcreader/Example.java
 
 
-```
+```java
 import com.wselwood.mpcreader.MinorPlanetReader;
 import com.wselwood.mpcreader.MinorPlanetReaderBuilder;
 import com.wselwood.mpcreader.MinorPlanet;
