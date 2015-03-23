@@ -8,14 +8,11 @@ import com.wselwood.mpcreader.modifiers.YearOfObservationModifier;
 
 import java.io.*;
 import java.util.*;
-import java.util.zip.GZIPInputStream;
 
 /**
  * Simple builder pattern to create a minor planet reader.
  *
  * Mainly done this way so we can add more options in later with out having to make breaking changes to the api.
- *
- * Created by wselwood on 27/04/14.
  */
 public class MinorPlanetReaderBuilder {
 
@@ -41,17 +38,32 @@ public class MinorPlanetReaderBuilder {
     /**
      * select the file for the reader to open.
      * @param f the file to open.
+     * @return The builder for more work
      */
     public MinorPlanetReaderBuilder open(File f) {
         target = f;
         return this;
     }
 
+    /**
+     * Mark the file as being compressed.
+     *
+     * It is not normally required to call this as it can be worked out from the file.
+     *
+     * @return this builder to set more options.
+     */
     public MinorPlanetReaderBuilder compressed() {
         compressed = true;
         return this;
     }
 
+    /**
+     * Mark this file as uncompressed.
+     *
+     * It is not normally required to call this as it can be worked out from the file.
+     *
+     * @return this builder to set more options.
+     */
     public MinorPlanetReaderBuilder unCompressed() {
         compressed = false;
         return this;
@@ -59,6 +71,8 @@ public class MinorPlanetReaderBuilder {
 
     /**
      * Should angles in the file be converted to radians.
+     *
+     * @return this builder to set more options.
      */
     public MinorPlanetReaderBuilder convertAngles() {
         convertToRaidians = true;

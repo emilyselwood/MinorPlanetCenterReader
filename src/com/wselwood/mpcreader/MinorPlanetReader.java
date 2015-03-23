@@ -11,8 +11,6 @@ import java.util.zip.GZIPInputStream;
  * The basic part of a reader for the minor planet center catalogues.
  *
  * The only reason this does not implement Iterator is so we can throw IO exceptions on next and hasNext.
- *
- * Created by wselwood on 14/04/14.
  */
 public class MinorPlanetReader {
 
@@ -20,6 +18,8 @@ public class MinorPlanetReader {
 
     /**
      * Use the MinorPlanetReaderBuilder to construct this class. You are not expected to call this directly.
+     * 
+     * @throws java.io.IOException if the file can not be found or it is unreadable.
      */
     public MinorPlanetReader(File input, boolean compressed, List<Column> columns, List<Modifier> modifiers, Map<String, Container> containers) throws IOException {
 

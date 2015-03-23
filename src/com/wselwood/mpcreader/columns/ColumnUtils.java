@@ -29,6 +29,7 @@ public class ColumnUtils {
      * @param start the start point of the number we are interested in,
      * @param length the length in characters from the buffer we are interested in.
      * @return the decoded number.
+     * @throws InvalidDataException if a character is encounterd out side the valid range
      */
     public static int decodePackedInt(char[] buffer, int start, int length) throws InvalidDataException {
         int result = 0;
