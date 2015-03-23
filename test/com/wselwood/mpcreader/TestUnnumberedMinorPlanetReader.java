@@ -98,7 +98,7 @@ public class TestUnnumberedMinorPlanetReader {
 
     private void verify1960SW(MinorPlanet result) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
         assertEquals("1960 SW", result.getNumber());
         assertEquals(17.0, result.getAbsoluteMagnitude(), 0.0);
@@ -141,7 +141,7 @@ public class TestUnnumberedMinorPlanetReader {
 
         assertEquals("1960 SW", result.getReadableDesignation());
 
-        assertEquals("2009-04-20", sdf.format(result.getDateOfLastObservation()));
+        assertEquals("2009-04-21", sdf.format(result.getDateOfLastObservation()));
 
     }
 }

@@ -5,6 +5,7 @@ import com.wselwood.mpcreader.InvalidDataException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by wselwood on 15/04/14.
@@ -16,6 +17,7 @@ public class DateColumn implements Column<Date> {
         this.count = end - start;
         this.row = row;
         formatter = new SimpleDateFormat(format);
+       formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
     @Override
